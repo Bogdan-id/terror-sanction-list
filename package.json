@@ -4,11 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "showAvailableSources": "SHOW_EXTERNAL_SOURCES=true node --require dotenv/config app.js",
+    "showAvailableFiles": "SHOW_AVAILABLE_FILES=true node --require dotenv/config app.js",
+    "showAvailableParseSchemas": "SHOW_AVAILABLE_PARSE_SCHEMAS=true node --require dotenv/config app.js",
+    "removeFile": "REMOVE_FILE=true node --require dotenv/config app.js",
+    "start": "node --require dotenv/config app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "9.0.0",
     "follow-redirects": "^1.13.0",
     "mongodb": "^3.6.2",
     "unzipper": "^0.10.11",
