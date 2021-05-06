@@ -1,7 +1,7 @@
 const XmlStream = require('xml-stream');
 const fs = require("fs");
 const pathToFile = './parse-file/';
-const parseFile = pathToFile + 'parse.xml';
+const parseFile = pathToFile + process.env.filename;
 
 let args = require('./parseObjects');
 
@@ -12,22 +12,22 @@ module.exports = {
     const xmlFileReadStream = fs.createReadStream(parseFile);
     const xmlFileWriteUrlStream = new XmlStream(xmlFileReadStream);
 
-    if(args.UNOsancPerson.collectItems && args.UNOsancPerson.collectItems.length) {
-      console.log("Collect items - " + args.UNOsancPerson.collectItems)
-      args.UNOsancPerson.collectItems.forEach(element => {
+    const schema = process.env.parseschema
+
+    if(args[schema].collectItems && args[schema].collectItems.length) {
+      console.log("Collect items - " + args[schema].collectItems)
+      args[schema].collectItems.forEach(element => {
         xmlFileWriteUrlStream.collect(element);
       })
     }
 
-    xmlFileWriteUrlStream.on(`endElement: ${args.UNOsancPerson.endElement}`,
-      parse
-    )
+    xmlFileWriteUrlStream.on(`endElement: ${args[schema].endElement}`, parse)
     
     function parse(obj) { 
       try {
         (function runCallBacks() {
           let result
-          for (let callBack of args.UNOsancPerson.callbacks) {
+          for (let callBack of args[schema].callbacks) {
             typeof callBack === 'function'
               ? result = callBack(obj) : false
           }
@@ -43,13 +43,6 @@ module.exports = {
         if(err) { console.log(err); return };
         console.log(result)
       })
-
-      // fs.writeFile("./txt.json", JSON.stringify(itemList, null, 2), function(err) {
-      //   if(err) {
-      //       return console.log(err);
-      //   }
-      //   console.log("The file was saved!");
-      // });
     })
   }
 }
