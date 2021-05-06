@@ -1,5 +1,3 @@
-const utils = require('./tranliterate');
-
 let genCallbacks = {
   keepFields(obj, fields) {
     for (let i of Object.keys(obj)) {
