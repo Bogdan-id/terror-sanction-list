@@ -2,8 +2,8 @@ const MongoClient = require('mongodb').MongoClient;
 const parser = require('./parser')
 
 const dbName = 'PepUkraine';
-const dbCollection = 'UNOsancPerson'; // USAsanc, UNOsancLegal, UNOsancTerror
-const url = `mongodb+srv://dataPep:dvaodin1233@pepukraine.zbumz.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+const dbCollection = process.env.parseschema;
+const url = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -20,7 +20,7 @@ module.exports = {
       const db = client.db(dbName);
       let col = db.collection(dbCollection);
 
-      await col.deleteMany()
+      await col.deleteMany({})
 
       parser.parseXml(col)
       console.log('Parsing started')
