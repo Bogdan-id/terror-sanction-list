@@ -3,7 +3,7 @@ const parser = require('./parser')
 
 const dbName = process.env.DB_NAME;
 const dbCollection = process.env.parseschema;
-const url = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}`;
+const url = `mongodb://${process.env.USER}:${process.env.PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}`;
 const options = {
   useNewUrlParser: true,
   useUnifiedTopology: true
