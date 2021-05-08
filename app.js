@@ -21,6 +21,7 @@ function runParse() {
   if (process.env.SHOW_EXTERNAL_SOURCES) showDownloadSources()
   if (process.env.SHOW_AVAILABLE_FILES) showFiles()
   if (process.env.downloadsource && process.env.filename) downloadFile()
+  if (process.env.PARSER_HELP) consoleHelp()
 }
 
 runParse()
@@ -67,4 +68,18 @@ function downloadFile () {
     throw new Error ("Specify file name 'filename=<file name with extension> npm run ...'")
   }
   try { downloader.GET() } catch(err) {console.log(err)};
+}
+
+function consoleHelp () {
+  const instruction = `
+    To download file run:   'downloadsource=<source> filename=<arbitrary name with .xml> npm run start'
+    To parse file run:      'parseschema=<scheema> filename=<filename> npm run start' 
+
+    scripts:
+      showAvailableSources      - print available sources
+      showAvailableFiles        - print downloaded files
+      showAvailableParseSchemas - print parsing schemes
+      help                      - print helper info
+  `
+  console.log(instruction)
 }
