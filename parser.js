@@ -31,7 +31,7 @@ module.exports = {
             typeof callBack === 'function'
               ? result = callBack(obj) : false
           }
-          itemList.push(result)
+          result && itemList.push(result)
         })()
       } catch(err) {console.log(err)}
     }

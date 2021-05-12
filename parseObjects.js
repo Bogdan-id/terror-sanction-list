@@ -117,6 +117,23 @@ module.exports = {
     ]
   },
 
+  CanadaPersons: {
+    endElement: 'record',
+    callbacks: [
+      obj => {
+        return obj.Entity ? null : obj
+      }
+    ]
+  },
+  CanadaLegals: {
+    endElement: 'record',
+    callbacks: [
+      obj => {
+        return obj.Entity ? obj : null
+      }
+    ]
+  },
+
   UNOterrors: {
     endElement: 'acount-list',
     collectItems: ['aka-list'],

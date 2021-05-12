@@ -16,5 +16,11 @@ module.exports = {
     host: 'treasury.gov',
     port: 443,
     path: '/ofac/downloads/sdn.xml'
+  },
+  // Canada sanctions
+  CanadaSanc: {
+    host: 'international.gc.ca',
+    port: 443,
+    path: '/world-monde/assets/office_docs/international_relations-relations_internationales/sanctions/sema-lmes.xml'
   }
 };
