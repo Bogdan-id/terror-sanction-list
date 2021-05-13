@@ -36,9 +36,10 @@ module.exports = {
       } catch(err) {console.log(err)}
     }
 
-    xmlFileWriteUrlStream.on('end', function() {
+    xmlFileWriteUrlStream.on('end', async function() {
       console.log('Parsing Ended')
       console.log(itemList)
+      await col.deleteMany({})
       col.insertMany(itemList, function(err, result) {
         if(err) { console.log(err); return };
         console.log(result)
