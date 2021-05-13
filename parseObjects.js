@@ -121,7 +121,13 @@ module.exports = {
     endElement: 'record',
     callbacks: [
       obj => {
-        return obj.Entity ? null : obj
+        if (obj.Entity) return null
+        if (obj.Aliases) obj.Aliases = obj.Aliases.toUpperCase()
+        obj.fullName = obj.LastName + " " + obj.GivenName
+        obj.fullName = obj.fullName.toUpperCase()
+        delete obj.LastName 
+        delete obj.GivenName
+        return obj
       }
     ]
   },
@@ -129,7 +135,10 @@ module.exports = {
     endElement: 'record',
     callbacks: [
       obj => {
-        return obj.Entity ? obj : null
+        if (!obj.Entity) return null
+        if (obj.Aliases) obj.Aliases = obj.Aliases.toUpperCase()
+        obj.Entity = obj.Entity.toUpperCase()
+        return obj
       }
     ]
   },
