@@ -9,21 +9,27 @@ const options = {
   useUnifiedTopology: true
 };
 
-const client = new MongoClient(url, options);
+const client = new MongoClient(url, options)
 
 module.exports = {
-  connect: () => {
-    client.connect(async function(err) {
-      if(err) {console.log(err); return}
-      console.log('\r' + "Connected successfully to Mongo server");
-
-      const db = client.db(dbName);
-      let col = db.collection(dbCollection);
-
-      await col.deleteMany({})
-
-      parser.parseXml(col)
-      console.log('Parsing started')
+  connect: (collection, filename) => {
+    new Promise(resolve => {
+      client.connect(async function(err) {
+        if(err) {console.log(err); return}
+        console.log('\r' + "Connected successfully to Mongo server")
+  
+        const db = client.db(dbName)
+        collection = collection || dbCollection
+        let col = db.collection(collection)
+  
+        await col.deleteMany({})
+  
+        if (filename) filename += '.xml'
+  
+        resolve(parser.parseXml(col, filename, collection))
+      })
     })
-  }
+  },
+  client: client,
+  dbName: process.env.DB_NAME,
 }

@@ -1,21 +1,20 @@
 const XmlStream = require('xml-stream');
 const fs = require("fs");
 const pathToFile = './parse-file/';
-const parseFile = pathToFile + process.env.filename;
 
 let args = require('./parseObjects');
 
 module.exports = {
-  parseXml: function(col) {
+  parseXml: function(col, fileName, collName) {
     let itemList = []
+    const parseFile = pathToFile + (fileName || process.env.filename);
 
     const xmlFileReadStream = fs.createReadStream(parseFile);
     const xmlFileWriteUrlStream = new XmlStream(xmlFileReadStream);
 
-    const schema = process.env.parseschema
+    const schema = collName || process.env.parseschema
 
     if(args[schema].collectItems && args[schema].collectItems.length) {
-      console.log("Collect items - " + args[schema].collectItems)
       args[schema].collectItems.forEach(element => {
         xmlFileWriteUrlStream.collect(element);
       })
@@ -37,12 +36,10 @@ module.exports = {
     }
 
     xmlFileWriteUrlStream.on('end', async function() {
-      console.log('Parsing Ended')
-      console.log(itemList)
       await col.deleteMany({})
       col.insertMany(itemList, function(err, result) {
         if(err) { console.log(err); return };
-        console.log(result)
+        console.log('Parsing Ended: ' + collName)
       })
     })
   }

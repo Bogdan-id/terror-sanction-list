@@ -10,6 +10,7 @@ module.exports = {
   UNOsancPerson: {
     endElement: 'INDIVIDUAL',
     collectItems: ['INDIVIDUAL_ALIAS'],
+    fileName: 'UNOsanc',
     callbacks: [
       obj => {
         obj.fullName = (
@@ -72,6 +73,7 @@ module.exports = {
   UNOsancLegal: {
     endElement: 'ENTITY',
     collectItems: ['ENTITY_ALIAS', 'ENTITY_ADDRESS'],
+    fileName: 'UNOsanc',
     callbacks: [
       obj => {
         obj.firstName = obj.FIRST_NAME.toUpperCase() || null,
@@ -119,6 +121,7 @@ module.exports = {
 
   CanadaPersons: {
     endElement: 'record',
+    fileName: 'CanadaSanc',
     callbacks: [
       obj => {
         if (obj.Entity) return null
@@ -133,6 +136,7 @@ module.exports = {
   },
   CanadaLegals: {
     endElement: 'record',
+    fileName: 'CanadaSanc',
     callbacks: [
       obj => {
         if (!obj.Entity) return null
@@ -146,6 +150,7 @@ module.exports = {
   UNOterrors: {
     endElement: 'acount-list',
     collectItems: ['aka-list'],
+    fileName: 'UNOterror',
     callbacks: [
       obj => {
         genCallbacks.keepFields(obj, [
@@ -186,6 +191,7 @@ module.exports = {
   USAsanc: {
     endElement: 'sdnEntry',
     collectItems: ['aka', 'address', 'dateOfBirthItem', 'placeOfBirthItem'],
+    fileName: 'USAsanc',
     callbacks: [
       obj => {
         obj.lastName = obj.lastName ? obj.lastName.toUpperCase().trim() : null,
@@ -226,9 +232,6 @@ module.exports = {
           const lastName = `${obj.lastName ? obj.lastName: ''}`
           const firstName = `${obj.firstName ? ' ' + obj.firstName : ''}`
           const patronymic = `${obj.patronymic || obj.thirdName ? ' ' +  obj.patronymic || ' ' + obj.thirdName : ''}`
-
-          // delete obj.lastName
-          // delete obj.firstName
 
           return obj.fullName = `${lastName}${firstName}${patronymic}`.toUpperCase()
         }
