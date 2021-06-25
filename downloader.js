@@ -15,7 +15,7 @@ module.exports = {
     }
 
     return new Promise((resolve, reject) => {
-      https.get(options, function(res) {
+      const request = https.get(options, function(res) {
         console.log('statusCode:', res.statusCode)
         console.log('headers:', res.headers)
 
@@ -30,6 +30,7 @@ module.exports = {
           reject(err)
         })
       })
+      request.on('end', () => console.log('Request ended'))
     })
   },
   sources: Object.keys(dwnOptions),

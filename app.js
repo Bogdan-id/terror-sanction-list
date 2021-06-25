@@ -1,10 +1,9 @@
 'use strict'
 require('dotenv').config()
-
 const fs = require("fs")
 const downloader = require("./downloader")
-const { connect, client, dbName } = require('./connector')
 const parseSchemas = require('./parseObjects')
+const { connect, client, dbName } = require('./connector')
 const { parseXml } = require('./parser')
 
 process.on('uncaughtException', (err, origin) => {

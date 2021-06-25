@@ -154,6 +154,7 @@ module.exports = {
     callbacks: [
       obj => {
         genCallbacks.keepFields(obj, [
+          'date-entry',
           'program-entry',
           'aka-list',
           'date-of-birth-list',
